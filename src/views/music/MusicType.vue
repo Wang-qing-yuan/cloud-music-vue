@@ -136,9 +136,6 @@ export default {
     }
   },
   created() {
-    let index = this.$route.query.index
-    let index1 = this.$route.query.index1
-    this.menus = JSON.parse(localStorage.getItem('menuList'))[index].subMenus[index1].subMenus
     //获取所有歌曲
     this.axios.get(this.GLOBAL.baseUrl + '/songList/type').then((res) => {
       this.types = res.data.data

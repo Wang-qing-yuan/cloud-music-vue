@@ -17,6 +17,7 @@
         <mu-form-item class="tijiao">
           <mu-button color="primary" @click="submit">提交</mu-button>
           <mu-button @click="clear">重置</mu-button>
+          <mu-button @click="login()">第三方登录</mu-button>
         </mu-form-item>
       </mu-form>
     </mu-container>
@@ -141,13 +142,9 @@ export default {
             } else {
               //只有一个角色
               const roleId = res.data.data.admin.roles[0].roleId
-              alert(roleId)
-              this.$router.push({
-                path: '/',
-                query: {
-                  roleId: roleId
-                }
-              })
+              //将roleId存入全局
+              localStorage.setItem('roleId', roleId)
+              this.$router.push('/')
             }
           } else {
             //登录失败
@@ -167,14 +164,16 @@ export default {
       }
     },
     gotoIndex(roleId) {
-      //带着用户选择的roleId跳到首页
-      alert(roleId)
-      this.$router.push({
-        path: '/',
-        query: {
-          roleId: roleId
-        }
-      })
+      //将roleId存入全局
+      localStorage.setItem('roleId', roleId)
+      this.$router.push('/')
+    },
+    login() {
+      alert('click')
+      const authorize_uri = 'https://github.com/login/oauth/authorize'
+      const client_id = '67d9c785db77fb53b745'
+      const redirect_uri = 'http://localhost:8080/login/oauth2/code/github'
+      window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
     }
   },
   computed: {}
